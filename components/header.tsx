@@ -22,7 +22,7 @@ export function Header() {
             <div className="header-actions">
                 <Link href="/search" aria-label="Search" className="icon-btn"><Search size={19} /></Link>
                 <Link href={isAdmin ? "/admin/dashboard" : "/account"} aria-label={signedIn ? `Account for ${email}` : "Account"} className="icon-btn">{signedIn ? <span className="user-initials">{email.slice(0, 2).toUpperCase()}</span> : <UserRound size={19} />}</Link>
-                <Link href="/cart" aria-label="Cart" className="icon-btn cart-btn"><ShoppingBag size={19} />{count > 0 && <span>{count}</span>}</Link>
+                {!isAdmin && <Link href="/cart" aria-label="Cart" className="icon-btn cart-btn"><ShoppingBag size={19} />{count > 0 && <span>{count}</span>}</Link>}
                 <button className="icon-btn mobile-menu" onClick={() => setOpen(!open)} aria-label="Toggle menu">{open ? <X size={21} /> : <Menu size={21} />}</button>
             </div>
         </div>

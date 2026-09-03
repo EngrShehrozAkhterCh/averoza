@@ -824,9 +824,27 @@ h2 {
   outline: none;
   font: inherit;
 }
-.password-field { display: flex; border: 1px solid var(--line); background: #fbfcf8; }
-.password-field input { flex: 1; min-width: 0; border: 0; background: transparent; }
-.password-field button { border: 0; background: transparent; color: var(--muted); padding: 0 12px; font-size: 11px; }
+
+.password-field {
+  display: flex;
+  border: 1px solid var(--line);
+  background: #fbfcf8;
+}
+
+.password-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+}
+
+.password-field button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 0 12px;
+  font-size: 11px;
+}
 
 .field textarea {
   min-height: 100px;
@@ -1052,9 +1070,25 @@ h2 {
   padding: 35px 20px;
   color: var(--muted);
 }
-.admin-form { padding: 22px; margin-bottom: 20px; display: grid; gap: 4px; max-width: 760px; }
-.admin-form .field input, .admin-form .field textarea, .admin-form select { width: 100%; }
-.admin-form .button { justify-self: start; margin-top: 8px; }
+
+.admin-form {
+  padding: 22px;
+  margin-bottom: 20px;
+  display: grid;
+  gap: 4px;
+  max-width: 760px;
+}
+
+.admin-form .field input,
+.admin-form .field textarea,
+.admin-form select {
+  width: 100%;
+}
+
+.admin-form .button {
+  justify-self: start;
+  margin-top: 8px;
+}
 
 .admin-row {
   display: flex;
