@@ -1,0 +1,1 @@
+export default function AdminOrders() { return <div className="shell form-page"><p className="eyebrow">Admin / fulfillment</p><h1>Orders.</h1><div className="form-panel" style={{ marginTop: 30 }}><p>No orders yet. Orders submitted through the live Supabase checkout will appear here.</p></div></div>; }

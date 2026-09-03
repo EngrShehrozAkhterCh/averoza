@@ -1,0 +1,1 @@
+export default function AdminCustomers() { return <div className="shell form-page"><p className="eyebrow">Admin / customers</p><h1>Customers.</h1><div className="form-panel" style={{ marginTop: 30 }}><p>Customer records will be loaded from profiles after Supabase is configured.</p></div></div>; }

@@ -1,69 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight, ShieldCheck, Truck, Sparkles } from "lucide-react";
+import { categories, products } from "@/lib/data";
+import { ProductCard } from "@/components/product-card";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  return <>
+    <section className="hero"><div className="shell hero-grid"><div><p className="eyebrow">A considered online store</p><h1>Make room for better things.</h1><p className="hero-copy">Useful, beautiful essentials for your everyday rhythm. Curated with a little more intention and delivered across Pakistan.</p><div className="button-row"><Link className="button" href="/shop">Shop the edit <ArrowUpRight size={17} /></Link><Link className="button secondary" href="/categories">Browse categories</Link></div></div><div className="hero-art"><Image src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=1200&q=85" alt="A calm workspace with considered everyday objects" fill priority sizes="(max-width: 800px) 78vw, 42vw" /></div></div></section>
+    <section className="section"><div className="shell"><div className="section-head"><div><p className="eyebrow">The current edit</p><h2>Good things, well chosen.</h2></div><Link className="section-link" href="/shop">View all products <ArrowUpRight size={14} /></Link></div><div className="product-grid">{products.slice(0, 4).map((product) => <ProductCard product={product} key={product.id} />)}</div></div></section>
+    <section className="section" style={{ paddingTop: 0 }}><div className="shell"><div className="section-head"><div><p className="eyebrow">Find your next</p><h2>Shop by feeling.</h2></div></div><div className="category-grid">{categories.map((category) => <Link className="category-card" href={`/shop?category=${category.slug}`} key={category.slug}><Image src={category.image} alt={category.name} fill sizes="(max-width: 800px) 50vw, 33vw" /><div><h3>{category.name}</h3><p>{category.description}</p></div></Link>)}</div></div></section>
+    <section className="section promise"><div className="shell promise-grid"><div className="promise-item"><ShieldCheck size={25} /><h3>Considered quality</h3><p>Every product earns its place through usefulness, finish, and staying power.</p></div><div className="promise-item"><Truck size={25} /><h3>Delivered simply</h3><p>Reliable cash on delivery and clear shipping updates, wherever you are in Pakistan.</p></div><div className="promise-item"><Sparkles size={25} /><h3>A calmer cart</h3><p>Less noise, better choices. A small edit of things that make daily life feel lighter.</p></div></div></section>
+    <section className="section newsletter"><div className="shell newsletter-inner"><h2>Good finds, occasionally.</h2><form><input type="email" placeholder="Your email address" aria-label="Your email address" /><button type="submit" aria-label="Subscribe">Join <ArrowUpRight size={15} /></button></form></div></section>
+  </>;
 }

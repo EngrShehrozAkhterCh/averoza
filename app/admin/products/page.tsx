@@ -1,0 +1,2 @@
+import { products } from "@/lib/data";
+export default function AdminProducts() { return <div className="shell form-page"><p className="eyebrow">Admin / catalog</p><h1>Products.</h1><div className="form-panel" style={{ marginTop: 30 }}>{products.map((product) => <div className="summary-row" key={product.id}><span>{product.name} · SKU {product.id.toUpperCase()}</span><strong>{product.stock} in stock</strong></div>)}</div></div>; }
