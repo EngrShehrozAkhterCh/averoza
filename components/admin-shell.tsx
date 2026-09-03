@@ -8,11 +8,15 @@ import { getSupabaseBrowser } from "@/lib/supabase/browser";
 const links = [
     ["/admin/dashboard", "Dashboard", LayoutDashboard],
     ["/admin/products", "Products", ShoppingBag],
+    ["/admin/import", "Import Products", Boxes],
     ["/admin/orders", "Orders", ClipboardList],
     ["/admin/customers", "Customers", Users],
     ["/admin/inventory", "Inventory", Boxes],
     ["/admin/categories", "Categories", Tags],
     ["/admin/settings", "Settings", Settings],
+    ["/admin/analytics", "Analytics", LayoutDashboard],
+    ["/admin/discounts", "Discounts", Tags],
+    ["/admin/content", "Content", LayoutDashboard],
 ] as const;
 
 export function AdminShell({ children }: { children: React.ReactNode }) {

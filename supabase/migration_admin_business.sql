@@ -1,0 +1,13 @@
+-- Safe additions for the admin business system. Run after the existing schema.
+alter table public.products add column if not exists source_type text not null default 'manual' check (source_type in ('manual', 'markaz', 'other_supplier'));
+alter table public.products add column if not exists supplier_name text;
+alter table public.products add column if not exists supplier_product_id text;
+alter table public.products add column if not exists supplier_product_url text;
+alter table public.products add column if not exists last_supplier_update timestamptz;
+alter table public.products add column if not exists low_stock_threshold integer not null default 5 check (low_stock_threshold >= 0);
+create table if not exists public.product_imports (id uuid primary key default uuid_generate_v4(), file_name text not null, products_imported integer not null default 0, products_failed integer not null default 0, imported_by uuid references public.profiles(id) on delete set null, status text not null default 'completed', errors jsonb not null default '[]'::jsonb, created_at timestamptz not null default now());
+create table if not exists public.stock_movements (id uuid primary key default uuid_generate_v4(), product_id uuid not null references public.products(id) on delete cascade, previous_quantity integer not null, new_quantity integer not null, change_quantity integer not null, reason text not null, created_by uuid references public.profiles(id) on delete set null, created_at timestamptz not null default now());
+create table if not exists public.admin_notes (id uuid primary key default uuid_generate_v4(), order_id uuid not null references public.orders(id) on delete cascade, note text not null, created_by uuid references public.profiles(id) on delete set null, created_at timestamptz not null default now());
+create index if not exists product_imports_created_idx on public.product_imports(created_at desc); create index if not exists stock_movements_product_idx on public.stock_movements(product_id, created_at desc); create index if not exists admin_notes_order_idx on public.admin_notes(order_id);
+alter table public.product_imports enable row level security; alter table public.stock_movements enable row level security; alter table public.admin_notes enable row level security;
+create policy "admins manage imports" on public.product_imports for all using (public.is_admin()) with check (public.is_admin()); create policy "admins manage stock movements" on public.stock_movements for all using (public.is_admin()) with check (public.is_admin()); create policy "admins manage notes" on public.admin_notes for all using (public.is_admin()) with check (public.is_admin());

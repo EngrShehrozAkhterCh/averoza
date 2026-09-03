@@ -1,0 +1,1 @@
+export default function DiscountsPage() { return <section><div className="admin-title"><div><p className="eyebrow">Admin / promotions</p><h1>Discounts.</h1></div></div><div className="admin-table"><p className="admin-empty">Coupon storage is not enabled in the current database schema. Add a coupons migration before activating discounts at checkout.</p></div></section>; }

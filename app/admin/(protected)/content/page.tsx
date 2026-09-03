@@ -1,0 +1,1 @@
+export default function ContentPage() { return <section><div className="admin-title"><div><p className="eyebrow">Admin / storefront</p><h1>Content.</h1></div></div><div className="admin-table"><p className="admin-empty">Homepage content management is not active because the current database has no content table. The existing homepage remains unchanged.</p></div></section>; }

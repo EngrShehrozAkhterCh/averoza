@@ -1090,6 +1090,92 @@ h2 {
   margin-top: 8px;
 }
 
+.admin-import {
+  display: grid;
+  gap: 18px;
+  max-width: 1000px;
+}
+
+.admin-import-upload,
+.admin-import-section {
+  padding: 22px;
+  border: 1px solid #dce3da;
+  background: #fff;
+}
+
+.admin-import-upload {
+  border: 2px dashed #b8c5b6;
+  text-align: center;
+}
+
+.admin-import-upload label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.admin-import-upload input {
+  max-width: 100%;
+}
+
+.admin-import-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.mapping-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid #edf0eb;
+  font-size: 13px;
+}
+
+.mapping-row select,
+.pricing-grid input,
+.pricing-grid select {
+  width: 100%;
+  border: 1px solid var(--line);
+  padding: 10px;
+  background: #fbfcf8;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.admin-preview {
+  overflow: auto;
+  margin-bottom: 20px;
+}
+
+.admin-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.admin-preview th,
+.admin-preview td {
+  padding: 10px;
+  border: 1px solid #e7ece5;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.admin-error {
+  color: #a33;
+}
+
+.admin-success {
+  color: #58783a;
+}
+
 .admin-row {
   display: flex;
   justify-content: space-between;
