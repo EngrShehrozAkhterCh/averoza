@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getSupabaseServer } from "@/lib/supabase/server-auth";
 import { getSupabaseAdmin } from "@/lib/supabase/server";
 
 type OrderInput = {
@@ -17,8 +18,12 @@ type CartInput = { slug: unknown; quantity: unknown };
 const text = (value: unknown, max = 300) => typeof value === "string" && value.trim().length > 0 && value.length <= max ? value.trim() : null;
 
 export async function POST(request: Request) {
-    const supabase = getSupabaseAdmin();
+    const supabase = await getSupabaseServer();
     if (!supabase) return NextResponse.json({ error: "Store backend is not configured." }, { status: 503 });
+    const admin = getSupabaseAdmin();
+    if (!admin) return NextResponse.json({ error: "Store inventory is not configured." }, { status: 503 });
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "Please sign in before placing an order." }, { status: 401 });
 
     let body: OrderInput;
     try { body = await request.json(); } catch { return NextResponse.json({ error: "Invalid request body." }, { status: 400 }); }
@@ -37,16 +42,16 @@ export async function POST(request: Request) {
     for (const item of items) { const slug = text(item.slug, 120); const quantity = typeof item.quantity === "number" && Number.isInteger(item.quantity) ? item.quantity : 0; if (!slug || quantity < 1 || quantity > 20) return NextResponse.json({ error: "Invalid cart item." }, { status: 400 }); requested.set(slug, (requested.get(slug) ?? 0) + quantity); }
     const slugs = [...requested.keys()];
     const { data: products, error: productError } = await supabase.from("products").select("id,name,slug,price,stock_quantity,is_active").in("slug", slugs).eq("is_active", true);
-    if (productError || !products || products.length !== slugs.length) return NextResponse.json({ error: "One or more products are unavailable." }, { status: 409 });
+    if (productError || !products || products.length !== slugs.length) { if (process.env.NODE_ENV !== "production") console.error("Product lookup failed:", productError); return NextResponse.json({ error: "One or more products are unavailable." }, { status: 409 }); }
 
     const orderItems = products.map((product) => { const quantity = requested.get(product.slug) ?? 0; return { product_id: product.id, product_name: product.name, quantity, unit_price: Number(product.price), total_price: Number(product.price) * quantity }; });
     const subtotal = orderItems.reduce((sum, item) => sum + item.total_price, 0);
     const shippingFee = 200;
     const orderNumber = `AV-${Date.now().toString(36).toUpperCase()}`;
-    const { data: order, error: orderError } = await supabase.from("orders").insert({ order_number: orderNumber, customer_name: customerName, customer_email: customerEmail, customer_phone: customerPhone, shipping_address: shippingAddress, city, province, postal_code: postalCode, notes, subtotal, shipping_fee: shippingFee, total: subtotal + shippingFee, payment_method: "cod" }).select("id,order_number,total").single();
-    if (orderError || !order) return NextResponse.json({ error: "We could not create your order." }, { status: 500 });
+    const { data: order, error: orderError } = await supabase.from("orders").insert({ order_number: orderNumber, user_id: user.id, customer_name: customerName, customer_email: customerEmail, customer_phone: customerPhone, shipping_address: shippingAddress, city, province, postal_code: postalCode, notes, subtotal, shipping_fee: shippingFee, total: subtotal + shippingFee, payment_method: "cod" }).select("id,order_number,total").single();
+    if (orderError || !order) { if (process.env.NODE_ENV !== "production") console.error("Order creation failed:", orderError); return NextResponse.json({ error: "We could not create your order." }, { status: 500 }); }
     const { error: itemsError } = await supabase.from("order_items").insert(orderItems.map((item) => ({ ...item, order_id: order.id })));
-    if (itemsError) { await supabase.from("orders").delete().eq("id", order.id); return NextResponse.json({ error: "We could not save your order items." }, { status: 500 }); }
-    for (const item of products) { const quantity = requested.get(item.slug) ?? 0; const { error } = await supabase.rpc("decrement_product_stock", { product_id: item.id, amount: quantity }); if (error) return NextResponse.json({ error: "Order received, but inventory confirmation is pending." }, { status: 202 }); }
-    return NextResponse.json({ orderNumber: order.order_number, total: order.total }, { status: 201 });
+    if (itemsError) { if (process.env.NODE_ENV !== "production") console.error("Order items creation failed:", itemsError); await admin.from("order_items").delete().eq("order_id", order.id); await admin.from("orders").delete().eq("id", order.id); return NextResponse.json({ error: "We could not save your order items." }, { status: 500 }); }
+    for (const item of products) { const quantity = requested.get(item.slug) ?? 0; const { error } = await admin.rpc("decrement_product_stock", { product_id: item.id, amount: quantity }); if (error) { if (process.env.NODE_ENV !== "production") console.error("Stock decrement failed:", error); return NextResponse.json({ error: "Order received, but inventory confirmation is pending." }, { status: 202 }); } }
+    return NextResponse.json({ id: order.id, orderNumber: order.order_number, total: order.total }, { status: 201 });
 }
