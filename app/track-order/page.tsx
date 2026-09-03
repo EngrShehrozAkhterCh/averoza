@@ -1,0 +1,3 @@
+"use client";
+import { useState } from "react";
+export default function TrackOrderPage() { const [number, setNumber] = useState(""); return <div className="shell form-page"><div className="form-panel" style={{ maxWidth: 560, margin: "0 auto" }}><p className="eyebrow">Delivery updates</p><h1>Track an order.</h1><form onSubmit={(event) => { event.preventDefault(); setNumber((event.currentTarget.elements.namedItem("order") as HTMLInputElement).value); }}><div className="field"><label htmlFor="order">Order number</label><input id="order" name="order" placeholder="AV-..." required /></div><button className="button" type="submit">Check status</button></form>{number && <p role="status">Order {number} is being prepared. We will contact you before dispatch.</p>}</div></div>; }
