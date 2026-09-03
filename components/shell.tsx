@@ -1,3 +1,5 @@
+"use client";
+import { usePathname } from "next/navigation";
 import { Header } from "./header";
 import { Footer } from "./footer";
-export function Shell({ children }: { children: React.ReactNode }) { return <><Header /><main>{children}</main><Footer /></>; }
+export function Shell({ children }: { children: React.ReactNode }) { const pathname = usePathname(); if (pathname.startsWith("/admin")) return <>{children}</>; return <><Header /><main>{children}</main><Footer /></>; }

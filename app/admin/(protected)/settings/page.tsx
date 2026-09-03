@@ -1,0 +1,1 @@
+export default function SettingsPage() { return <section><div className="admin-title"><div><p className="eyebrow">Admin / configuration</p><h1>Settings.</h1></div></div><div className="admin-table"><p className="admin-empty">Store settings can be managed here as configuration fields are connected.</p></div></section>; }

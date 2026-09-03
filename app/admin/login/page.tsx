@@ -1,0 +1,2 @@
+import { AuthForm } from "@/components/auth-form";
+export default function AdminLoginPage() { return <div className="admin-login"><div className="admin-login-card"><div className="admin-brand"><span className="brand-mark">A</span><span>AVEROZA<br /><small>ADMIN</small></span></div><p className="eyebrow">Restricted access</p><h1>Admin sign in.</h1><p>Use your assigned administrator account to continue.</p><AuthForm mode="admin" nextPath="/admin/dashboard" /><p className="admin-login-help">Need access? Contact the store owner.</p></div></div>; }

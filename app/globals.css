@@ -849,6 +849,16 @@ h2 {
   line-height: 1.8;
 }
 
+.admin-app { min-height: 100vh; display: flex; background: #f4f6f1; color: var(--ink); }
+.admin-sidebar { width: 238px; flex: none; display: flex; flex-direction: column; padding: 28px 16px; background: #1b2420; color: #dce6dc; }
+.admin-brand { display: flex; align-items: center; gap: 10px; padding: 0 10px 34px; color: white; font: 800 14px var(--font-display); letter-spacing: .11em; line-height: 1.25; }
+.admin-brand small { color: var(--lime); font-size: 9px; letter-spacing: .22em; }
+.admin-sidebar nav { display: grid; gap: 4px; }
+.admin-sidebar nav a, .admin-logout { display: flex; align-items: center; gap: 11px; padding: 12px; border: 0; border-radius: 4px; background: transparent; color: #aeb9b0; font-size: 13px; text-align: left; }
+.admin-sidebar nav a:hover, .admin-sidebar nav a.active, .admin-logout:hover { background: #2b3931; color: white; }
+.admin-logout { margin-top: auto; width: 100%; }
+.admin-main { min-width: 0; flex: 1; }.admin-header { min-height: 82px; display: flex; align-items: center; justify-content: space-between; padding: 18px 42px; border-bottom: 1px solid #dce3da; background: #fbfcf9; }.admin-header h2 { margin-top: 5px; font-size: 18px; letter-spacing: -.02em; }.admin-user { display: flex; align-items: center; gap: 9px; border: 0; background: transparent; color: var(--muted); font-size: 13px; }.admin-user span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--lime); color: var(--ink); font-weight: 800; font-size: 11px; }.admin-content { max-width: 1240px; padding: 42px; }.admin-title { display: flex; justify-content: space-between; margin-bottom: 28px; }.admin-title h1 { font-size: 42px; margin: 8px 0 0; }.admin-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 26px; }.admin-stats > div { padding: 18px; border: 1px solid #dce3da; background: #fff; }.admin-stats span { display: block; color: var(--muted); font-size: 11px; }.admin-stats strong { display: block; margin-top: 10px; font: 700 24px var(--font-display); }.admin-table { overflow: auto; border: 1px solid #dce3da; background: #fff; }.admin-section-head { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #dce3da; }.admin-section-head h2 { font-size: 21px; }.admin-table table { width: 100%; border-collapse: collapse; font-size: 12px; }.admin-table th, .admin-table td { padding: 15px 20px; border-bottom: 1px solid #e7ece5; text-align: left; white-space: nowrap; }.admin-table th { color: var(--muted); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }.status { padding: 5px 8px; background: #e8f1d1; color: #607838; font-size: 10px; text-transform: capitalize; }.admin-empty { padding: 35px 20px; color: var(--muted); }.admin-row { display: flex; justify-content: space-between; padding: 17px 20px; border-bottom: 1px solid #e7ece5; font-size: 13px; }.admin-row small { display: block; color: var(--muted); margin-top: 4px; }.admin-login { min-height: 100vh; display: grid; place-items: center; background: #e6eddf; padding: 24px; }.admin-login-card { width: min(100%, 430px); padding: 42px; background: #fff; box-shadow: 0 16px 45px rgba(24,32,29,.08); }.admin-login-card .admin-brand { padding: 0 0 50px; color: var(--ink); }.admin-login-card h1 { font-size: 43px; margin: 12px 0; }.admin-login-card > p:not(.eyebrow) { color: var(--muted); line-height: 1.6; }.admin-login-help { margin-top: 25px; color: var(--muted); font-size: 12px; }
+
 @media (max-width:800px) {
   .shell {
     width: min(100% - 28px, 600px);
@@ -986,4 +996,5 @@ h2 {
   .policy h1 {
     font-size: 44px;
   }
+  .admin-sidebar { width: 70px; padding: 20px 9px; }.admin-brand { padding: 0 6px 30px; }.admin-brand > span:last-child, .admin-sidebar nav a:not(.active)::after, .admin-sidebar nav a { font-size: 0; }.admin-sidebar nav a, .admin-logout { justify-content: center; }.admin-sidebar nav a svg, .admin-logout svg { width: 18px; height: 18px; }.admin-content { padding: 28px 16px; }.admin-header { padding: 16px; }.admin-stats { grid-template-columns: repeat(2, 1fr); }.admin-stats > div:last-child { grid-column: 1 / -1; }.admin-title h1 { font-size: 34px; }.admin-login-card { padding: 30px 22px; }
 }

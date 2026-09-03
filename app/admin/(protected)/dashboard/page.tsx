@@ -1,0 +1,10 @@
+import { getSupabaseServer } from "@/lib/supabase/server-auth";
+import { formatPKR } from "@/lib/data";
+
+export default async function AdminDashboard() {
+    const supabase = await getSupabaseServer();
+    if (!supabase) return null;
+    const [{ count: totalOrders }, { count: pendingOrders }, { count: totalProducts }, { count: lowStock }, { data: orders }] = await Promise.all([supabase.from("orders").select("id", { count: "exact", head: true }), supabase.from("orders").select("id", { count: "exact", head: true }).eq("order_status", "pending"), supabase.from("products").select("id", { count: "exact", head: true }), supabase.from("products").select("id", { count: "exact", head: true }).lte("stock_quantity", 5), supabase.from("orders").select("order_number,customer_name,total,order_status,created_at").order("created_at", { ascending: false }).limit(8)]);
+    const revenue = (orders ?? []).reduce((sum, order) => sum + Number(order.total), 0);
+    return <><div className="admin-title"><div><p className="eyebrow">Today at Averoza</p><h1>Good morning.</h1></div></div><div className="admin-stats"><div><span>Total orders</span><strong>{totalOrders ?? 0}</strong></div><div><span>Pending orders</span><strong>{pendingOrders ?? 0}</strong></div><div><span>Total products</span><strong>{totalProducts ?? 0}</strong></div><div><span>Low stock</span><strong>{lowStock ?? 0}</strong></div><div><span>Recent revenue</span><strong>{formatPKR(revenue)}</strong></div></div><section className="admin-table"><div className="admin-section-head"><h2>Recent orders</h2><span className="eyebrow">Latest activity</span></div>{orders?.length ? <table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th></tr></thead><tbody>{orders.map((order) => <tr key={order.order_number}><td>{order.order_number}</td><td>{order.customer_name}</td><td>{formatPKR(Number(order.total))}</td><td><span className="status">{order.order_status}</span></td><td>{new Date(order.created_at).toLocaleDateString("en-PK")}</td></tr>)}</tbody></table> : <p className="admin-empty">No orders yet.</p>}</section></>;
+}
