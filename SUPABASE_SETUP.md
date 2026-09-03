@@ -3,7 +3,8 @@
 1. Create a Supabase project and copy the project URL and anon key into `.env.local` using `.env.example`.
 2. For a new project, run the complete `supabase/schema.sql`, then run `supabase/seed.sql`. For the existing project, run `supabase/migration_backend.sql`; it does not drop tables or data.
 3. Enable Email auth in Authentication settings.
-4. Register the first account through `/register`, then promote it from the Supabase SQL editor:
+4. In Authentication -> URL Configuration, set Site URL to `https://averoza.vercel.app` and add `https://averoza.vercel.app/auth/callback` to Redirect URLs.
+5. Register the first account through `/register`, then promote it from the Supabase SQL editor:
 
 ```sql
 update public.profiles set role = 'admin' where email = 'your-admin-email@example.com';

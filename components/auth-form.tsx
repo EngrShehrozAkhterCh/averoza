@@ -17,9 +17,9 @@ export function AuthForm({ mode }: { mode: Mode }) {
         const email = String(formData.get("email") ?? "");
         const password = String(formData.get("password") ?? "");
         try {
-            if (mode === "forgot") { const result = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/account` }); if (result.error) setError(result.error.message); else setMessage("Check your email for a secure reset link."); return; }
-            const result = mode === "login" ? await supabase.auth.signInWithPassword({ email, password }) : await supabase.auth.signUp({ email, password, options: { data: { full_name: String(formData.get("name") ?? "") } } });
-            if (result.error) { setError(result.error.message); return; }
+            if (mode === "forgot") { const result = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/auth/callback?next=/reset-password` }); if (result.error) setError(result.error.message); else setMessage("Check your email for a secure reset link."); return; }
+            const result = mode === "login" ? await supabase.auth.signInWithPassword({ email, password }) : await supabase.auth.signUp({ email, password, options: { data: { full_name: String(formData.get("name") ?? "") }, emailRedirectTo: `${window.location.origin}/auth/callback?next=/account` } });
+            if (result.error) { setError(result.error.message.toLowerCase().includes("confirm") ? "Please confirm your email before signing in." : result.error.message); return; }
             if (mode === "register" && !result.data.session) setMessage("Check your email to confirm your account."); else router.push("/account");
         } catch (caught) {
             if (process.env.NODE_ENV !== "production") console.error("Supabase auth failed:", caught);
