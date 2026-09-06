@@ -1,1 +1,1 @@
-export { default, generateStaticParams } from "@/app/product/[slug]/page";
+export { default, dynamic } from "@/app/product/[slug]/page";
